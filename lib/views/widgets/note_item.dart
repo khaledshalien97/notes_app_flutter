@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/cubits/get_notes_cubit/get_notes_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/edit_note_view.dart';
 
@@ -11,7 +13,7 @@ class NoteItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>EditNoteView()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>EditNoteView(noteData: noteData,)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
@@ -37,6 +39,7 @@ class NoteItem extends StatelessWidget {
                 trailing: IconButton(
                     onPressed: () {
                       noteData.delete();
+                      BlocProvider.of<GetNotesCubit>(context).fetchAllNotes();
                     },
                     icon: const Icon(
                       Icons.delete,

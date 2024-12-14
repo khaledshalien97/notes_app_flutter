@@ -14,7 +14,6 @@ void main() async {
   Hive.registerAdapter(NoteModelAdapter());
   await Hive.openBox<NoteModel>(kNotesBox);
 
-  
   runApp(const NotesApp());
 }
 
@@ -23,9 +22,14 @@ class NotesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Poppins'),
-        home: const NotesView());
+    return MultiBlocProvider(
+     providers: [
+      BlocProvider(create: (context) => GetNotesCubit()),
+     ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Poppins'),
+          home: const NotesView()),
+    );
   }
 }
